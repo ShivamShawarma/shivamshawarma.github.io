@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shivam Sharma | HR & Operations Professional</title>
+    <meta name="description" content="Portfolio of Shivam, an HR & Operations Professional specializing in employee lifecycle management, compliance, and engagement.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            200: '#99f6e4',
+                            300: '#5eead4',
+                            400: '#2dd4bf',
+                            500: '#14b8a6', // Primary Teal
+                            600: '#0d9488',
+                            700: '#0f766e',
+                            800: '#115e59',
+                            900: '#134e4a',
+                        },
+                        slate: {
+                            850: '#151e2e',
+                        }
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom scrollbar for a premium feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+
+        /* Reveal animations class */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Timeline specific styles */
+        .timeline-dot {
+            width: 16px;
+            height: 16px;
+            background-color: #14b8a6;
+            border: 4px solid #ccfbf1;
+            border-radius: 50%;
+            position: absolute;
+            left: -8px;
+            top: 6px;
+        }
+
+        @media print {
+            body { background: white !important; color: black !important; }
+            .no-print { display: none !important; }
+            .reveal { opacity: 1 !important; transform: none !important; }
+            section { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-brand-200 selection:text-brand-900 overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 transition-all duration-300 backdrop-blur-md bg-white/80 border-b border-slate-200/50" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex-shrink-0 font-bold text-xl tracking-tight text-slate-900">
+                    S<span class="text-brand-500">Sharma.</span>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#about" class="text-sm font-medium text-slate-600 hover:text-brand-600 transition-colors">About</a>
+                    <a href="#experience" class="text-sm font-medium text-slate-600 hover:text-brand-600 transition-colors">Experience</a>
+                    <a href="#projects" class="text-sm font-medium text-slate-600 hover:text-brand-600 transition-colors">Projects</a>
+                    <a href="#skills" class="text-sm font-medium text-slate-600 hover:text-brand-600 transition-colors">Skills</a>
+                    <button onclick="window.print()" class="text-sm font-medium bg-slate-900 text-white px-4 py-2 rounded-lg hover:bg-brand-600 transition-colors flex items-center gap-2 shadow-sm no-print">
+                        <i class="fa-solid fa-download text-xs"></i> Resume
+                    </button>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-slate-600 hover:text-slate-900 focus:outline-none p-2">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white border-b border-slate-200 absolute w-full shadow-lg">
+            <div class="px-4 pt-2 pb-6 space-y-2 flex flex-col">
+                <a href="#about" class="block px-3 py-2 text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-600 rounded-md">About</a>
+                <a href="#experience" class="block px-3 py-2 text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-600 rounded-md">Experience</a>
+                <a href="#projects" class="block px-3 py-2 text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-600 rounded-md">Projects</a>
+                <a href="#skills" class="block px-3 py-2 text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-600 rounded-md">Skills</a>
+                <button onclick="window.print()" class="mt-4 w-full text-left px-3 py-2 text-base font-medium text-brand-600 hover:bg-slate-50 rounded-md flex items-center gap-2">
+                    <i class="fa-solid fa-file-pdf"></i> Download Resume
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden min-h-screen flex items-center">
+        <!-- Background decorative blobs -->
+        <div class="absolute top-0 -left-4 w-72 h-72 bg-brand-300 rounded-full mix-blend-multiply filter blur-2xl opacity-30 animate-blob"></div>
+        <div class="absolute top-0 -right-4 w-72 h-72 bg-brand-400 rounded-full mix-blend-multiply filter blur-2xl opacity-30 animate-blob animation-delay-2000"></div>
+        <div class="absolute -bottom-8 left-20 w-72 h-72 bg-emerald-300 rounded-full mix-blend-multiply filter blur-2xl opacity-30 animate-blob animation-delay-4000"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                
+                <div class="animate-fade-in-up">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-50 text-brand-700 font-medium text-sm mb-6 border border-brand-100 shadow-sm">
+                        <span class="w-2 h-2 rounded-full bg-brand-500 animate-pulse"></span> Open to new opportunities
+                    </div>
+                    <h1 class="text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight mb-4">
+                        Hi, I'm <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-emerald-500">Shivam Sharma</span>
+                    </h1>
+                    <h2 class="text-2xl lg:text-3xl font-semibold text-slate-700 mb-6">HR & Operations Professional</h2>
+                    <p class="text-lg text-slate-600 mb-8 max-w-lg leading-relaxed">
+                        Driving operational efficiency, employee experience, and compliance through data-driven HR strategies and seamless lifecycle management.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-4 no-print">
+                        <a href="#contact" class="bg-brand-600 hover:bg-brand-700 text-white px-6 py-3 rounded-xl font-medium shadow-lg shadow-brand-500/30 transition-all hover:-translate-y-0.5 flex items-center gap-2">
+                            <i class="fa-solid fa-paper-plane"></i> Contact Me
+                        </a>
+                        <button onclick="window.print()" class="bg-white text-slate-700 border border-slate-200 hover:border-slate-300 hover:bg-slate-50 px-6 py-3 rounded-xl font-medium shadow-sm transition-all flex items-center gap-2">
+                            <i class="fa-solid fa-download"></i> Get Resume
+                        </button>
+                    </div>
+
+                    <div class="flex items-center gap-6 mt-10 text-slate-500">
+                        <a href="mailto:sharmaxshivam@outlook.com" class="hover:text-brand-600 transition-colors text-xl" aria-label="Email">
+                            <i class="fa-solid fa-envelope"></i>
+                        </a>
+                        <a href="tel:+918447882857" class="hover:text-brand-600 transition-colors text-xl" aria-label="Phone">
+                            <i class="fa-solid fa-phone"></i>
+                        </a>
+                        <a href="#" class="hover:text-brand-600 transition-colors text-xl" aria-label="LinkedIn">
+                            <i class="fa-brands fa-linkedin"></i>
+                        </a>
+                        <div class="h-6 w-px bg-slate-300"></div>
+                        <span class="flex items-center gap-2 text-sm">
+                            <i class="fa-solid fa-location-dot"></i> West Delhi, India
+                        </span>
+                    </div>
+                </div>
+
+                <div class="relative hidden lg:block animate-fade-in-up" style="animation-delay: 0.2s;">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-brand-100 to-white rounded-3xl transform rotate-3 scale-105 -z-10"></div>
+                    <!-- Placeholder image matching professional dimensions -->
+                    <img src="https://placehold.co/600x700/0d9488/ffffff?text=Shivam+Sharma\nHR+Professional" alt="Shivam Sharma" class="rounded-3xl shadow-2xl border-4 border-white object-cover w-full max-w-md mx-auto aspect-[4/5]">
+                    
+                    <!-- Floating Badge -->
+                    <div class="absolute -bottom-6 -left-6 bg-white p-4 rounded-2xl shadow-xl flex items-center gap-4 animate-bounce" style="animation-duration: 3s;">
+                        <div class="bg-brand-100 p-3 rounded-full text-brand-600">
+                            <i class="fa-solid fa-chart-pie text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-slate-500 font-medium">Core Focus</p>
+                            <p class="font-bold text-slate-800">HR Analytics & Ops</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 reveal">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-sm font-bold text-brand-600 tracking-wider uppercase mb-2">Introduction</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-slate-900">About Me</h3>
+                <div class="w-16 h-1 bg-brand-500 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-10 items-center">
+                <div class="md:col-span-5 bg-slate-50 p-8 rounded-3xl border border-slate-100">
+                    <h4 class="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-bullseye text-brand-500"></i> Professional Values
+                    </h4>
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-check-circle text-brand-500 mt-1"></i>
+                            <span class="text-slate-600"><strong>Efficiency First:</strong> Streamlining workflows through SOPs and automated HRIS tools.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-check-circle text-brand-500 mt-1"></i>
+                            <span class="text-slate-600"><strong>Data-Driven:</strong> Utilizing analytics to track attrition, TAT, and organizational health.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-check-circle text-brand-500 mt-1"></i>
+                            <span class="text-slate-600"><strong>People-Centric:</strong> Fostering engagement and addressing grievances to build strong workplace cultures.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="md:col-span-7">
+                    <h4 class="text-2xl font-bold text-slate-900 mb-4">Dedicated to building better workplaces.</h4>
+                    <p class="text-lg text-slate-600 leading-relaxed mb-6">
+                        I am an organized and analytical HR & Operations professional with extensive experience in navigating complex employee lifecycle processes. My expertise lies at the intersection of process improvement, compliance administration, and employee experience.
+                    </p>
+                    <p class="text-lg text-slate-600 leading-relaxed">
+                        From managing end-to-end onboarding and offboarding to coordinating payroll, resolving support tickets, and organizing large-scale engagement initiatives, I focus on creating seamless operations that allow teams to thrive. I am deeply familiar with maintaining audit-ready documentation and leveraging HR systems to deliver actionable workforce insights.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-20 bg-slate-50">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 reveal">
+            <div class="mb-16">
+                <h2 class="text-sm font-bold text-brand-600 tracking-wider uppercase mb-2">Career Path</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-slate-900">Professional Experience</h3>
+                <div class="w-16 h-1 bg-brand-500 mt-4 rounded-full"></div>
+            </div>
+
+            <!-- Timeline Container -->
+            <div class="relative border-l-2 border-slate-200 ml-3 md:ml-4 pb-4">
+                
+                <!-- Experience Item -->
+                <div class="mb-10 relative pl-8 md:pl-12">
+                    <div class="timeline-dot shadow-sm"></div>
+                    
+                    <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
+                            <div>
+                                <h4 class="text-xl md:text-2xl font-bold text-slate-900">Associate – HR & Operations</h4>
+                                <h5 class="text-lg font-medium text-brand-600 mt-1">Neotas Development Pvt. Ltd.</h5>
+                                <span class="text-sm text-slate-500 italic block mt-1">Enhanced Due Diligence Firm</span>
+                            </div>
+                            <div class="mt-3 md:mt-0 inline-flex items-center gap-2 bg-slate-100 text-slate-700 px-4 py-1.5 rounded-full text-sm font-medium">
+                                <i class="fa-regular fa-calendar-alt"></i> Nov 2023 – Present
+                            </div>
+                        </div>
+
+                        <div class="space-y-4 text-slate-600 mt-6">
+                            <p class="relative pl-5 before:content-[''] before:absolute before:left-0 before:top-2 before:w-1.5 before:h-1.5 before:bg-brand-400 before:rounded-full">
+                                <strong class="text-slate-800">Employee Lifecycle & Operations:</strong> Managed end-to-end HR operations using Keka HRMS, covering onboarding, background verification (BGV), probation tracking, and seamless offboarding. Oversaw attendance, leave regularization, and payroll coordination in alignment with Finance.
+                            </p>
+                            <p class="relative pl-5 before:content-[''] before:absolute before:left-0 before:top-2 before:w-1.5 before:h-1.5 before:bg-brand-400 before:rounded-full">
+                                <strong class="text-slate-800">Employee Engagement & Employer Branding:</strong> Orchestrated company-wide engagement initiatives (townhalls, policy roadshows, Rewards & Recognition programs, and festive events). Launched and managed the company culture Instagram (@lifeatneotas) to boost employer branding.
+                            </p>
+                            <p class="relative pl-5 before:content-[''] before:absolute before:left-0 before:top-2 before:w-1.5 before:h-1.5 before:bg-brand-400 before:rounded-full">
+                                <strong class="text-slate-800">Policy & Compliance Management:</strong> Drafted and maintained core HR policies and standard operating procedures (SOPs). Drove ISO compliance initiatives by managing asset documentation, access control records, and audit evidence preparation.
+                            </p>
+                            <p class="relative pl-5 before:content-[''] before:absolute before:left-0 before:top-2 before:w-1.5 before:h-1.5 before:bg-brand-400 before:rounded-full">
+                                <strong class="text-slate-800">HR Analytics & Reporting:</strong> Analyzed Employee Satisfaction Surveys (ESS) and developed monthly MIS dashboards tracking attrition, HR ticket turnaround time (TAT), and workforce metrics to support leadership decision-making.
+                            </p>
+                            <p class="relative pl-5 before:content-[''] before:absolute before:left-0 before:top-2 before:w-1.5 before:h-1.5 before:bg-brand-400 before:rounded-full">
+                                <strong class="text-slate-800">Employee Relations & Grievance Handling:</strong> Served as the primary point of contact for HR support tickets, employee grievances, and policy interpretation, ensuring timely resolution and a positive workplace culture.
+                            </p>
+                            <p class="relative pl-5 before:content-[''] before:absolute before:left-0 before:top-2 before:w-1.5 before:h-1.5 before:bg-brand-400 before:rounded-full">
+                                <strong class="text-slate-800">Talent Acquisition & Administration:</strong> Supported full-cycle recruitment by sourcing, screening, and coordinating interviews. Managed employee asset allocation, recovery, and general office administration.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 reveal">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-sm font-bold text-brand-600 tracking-wider uppercase mb-2">Highlights</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-slate-900">Key Projects & Initiatives</h3>
+                <div class="w-16 h-1 bg-brand-500 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- Project Card 1 -->
+                <div class="group bg-slate-50 rounded-2xl p-8 border border-slate-100 hover:shadow-xl hover:border-brand-100 hover:-translate-y-1 transition-all duration-300">
+                    <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-brand-500 text-xl mb-6 group-hover:bg-brand-500 group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-file-signature"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-slate-900 mb-3">Policy & SOP Development</h4>
+                    <p class="text-slate-600 leading-relaxed">
+                        Created comprehensive Standard Operating Procedures (SOPs) for critical processes including Offboarding, Leave & Attendance, HR Support Tickets, and Background Verification. Developed and completely updated broader HR policies including C&B, Performance Management, and D&I documentation.
+                    </p>
+                </div>
+
+                <!-- Project Card 2 -->
+                <div class="group bg-slate-50 rounded-2xl p-8 border border-slate-100 hover:shadow-xl hover:border-brand-100 hover:-translate-y-1 transition-all duration-300">
+                    <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-brand-500 text-xl mb-6 group-hover:bg-brand-500 group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-slate-900 mb-3">Compliance & Training Design</h4>
+                    <p class="text-slate-600 leading-relaxed">
+                        Played a pivotal role in supporting ISO documentation and audit evidence preparation. Designed comprehensive internal cybersecurity and compliance training presentations, heavily focusing on portable & removable media best practices for the workforce.
+                    </p>
+                </div>
+
+                <!-- Project Card 3 -->
+                <div class="group bg-slate-50 rounded-2xl p-8 border border-slate-100 hover:shadow-xl hover:border-brand-100 hover:-translate-y-1 transition-all duration-300">
+                    <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-brand-500 text-xl mb-6 group-hover:bg-brand-500 group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-users-rays"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-slate-900 mb-3">Engagement & Event Management</h4>
+                    <p class="text-slate-600 leading-relaxed">
+                        Managed company-wide employee engagement initiatives and recurring surveys. Successfully organized and tracked complex internal events like the Neotas Badminton Tournament, and managed the end-to-end execution of the Rewards & Recognition program.
+                    </p>
+                </div>
+
+                <!-- Project Card 4 -->
+                <div class="group bg-slate-50 rounded-2xl p-8 border border-slate-100 hover:shadow-xl hover:border-brand-100 hover:-translate-y-1 transition-all duration-300">
+                    <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-brand-500 text-xl mb-6 group-hover:bg-brand-500 group-hover:text-white transition-colors">
+                        <i class="fa-solid fa-chart-pie"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-slate-900 mb-3">HR Reporting Frameworks</h4>
+                    <p class="text-slate-600 leading-relaxed">
+                        Designed and implemented sophisticated tracking frameworks that provided leadership with actionable insights covering monthly attrition, employee satisfaction survey results, HR ticket resolution times, and general workforce analytics.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-20 bg-slate-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 reveal">
+            <div class="mb-16">
+                <h2 class="text-sm font-bold text-brand-400 tracking-wider uppercase mb-2">Competencies</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-white">Core Skills & Tools</h3>
+                <div class="w-16 h-1 bg-brand-500 mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                
+                <!-- Category 1 -->
+                <div class="bg-slate-800/50 p-6 rounded-2xl border border-slate-700/50 backdrop-blur-sm hover:border-brand-500/50 transition-colors">
+                    <div class="flex items-center gap-3 mb-6 border-b border-slate-700 pb-4">
+                        <i class="fa-solid fa-layer-group text-2xl text-brand-400"></i>
+                        <h4 class="text-lg font-bold">HR Operations</h4>
+                    </div>
+                    <ul class="space-y-3 text-slate-300 text-sm">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400 text-xs"></i> Employee Lifecycle Management</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400 text-xs"></i> Onboarding/Offboarding</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400 text-xs"></i> Attendance & Leave Management</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400 text-xs"></i> Payroll Coordination</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400 text-xs"></i> Recruitment Support</li>
+                    </ul>
+                </div>
+
+                <!-- Category 2 -->
+                <div class="bg-slate-800/50 p-6 rounded-2xl border border-slate-700/50 backdrop-blur-sm hover:border-brand-500/50 transition-colors">
+                    <div class="flex items-center gap-3 mb-6 border-b border-slate-700 pb-4">
+                        <i class="fa-solid fa-handshake-angle text-2xl text-brand-400"></i>
+                        <h4 class="text-lg font-bold">Engagement</h4>
+                    </div>
+                    <ul class="space-y-3 text-slate-300 text-sm">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400 text-xs"></i> Employee Experience</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400 text-xs"></i> Grievance Resolution</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400 text-xs"></i> Rewards & Recognition (R&R)</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400 text-xs"></i> Event Coordination</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400 text-xs"></i> Performance Management Support</li>
+                    </ul>
+                </div>
+
+                <!-- Category 3 -->
+                <div class="bg-slate-800/50 p-6 rounded-2xl border border-slate-700/50 backdrop-blur-sm hover:border-brand-500/50 transition-colors">
+                    <div class="flex items-center gap-3 mb-6 border-b border-slate-700 pb-4">
+                        <i class="fa-solid fa-magnifying-glass-chart text-2xl text-brand-400"></i>
+                        <h4 class="text-lg font-bold">Compliance</h4>
+                    </div>
+                    <ul class="space-y-3 text-slate-300 text-sm">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400 text-xs"></i> HR Policies & SOP Development</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400 text-xs"></i> ISO Audit Documentation</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400 text-xs"></i> Background Verification (BGV)</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400 text-xs"></i> HR Analytics & MIS Reporting</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400 text-xs"></i> Attrition Analysis</li>
+                    </ul>
+                </div>
+
+                <!-- Category 4 -->
+                <div class="bg-slate-800/50 p-6 rounded-2xl border border-slate-700/50 backdrop-blur-sm hover:border-brand-500/50 transition-colors">
+                    <div class="flex items-center gap-3 mb-6 border-b border-slate-700 pb-4">
+                        <i class="fa-solid fa-laptop-code text-2xl text-brand-400"></i>
+                        <h4 class="text-lg font-bold">Systems & Tools</h4>
+                    </div>
+                    <ul class="space-y-3 text-slate-300 text-sm">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400 text-xs"></i> Keka HRMS</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400 text-xs"></i> MS Office 365</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400 text-xs"></i> Advanced Excel</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400 text-xs"></i> Microsoft Forms</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400 text-xs"></i> Microsoft SharePoint</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Education & Interests Section -->
+    <section class="py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 reveal">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                
+                <!-- Education -->
+                <div>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-3">
+                        <div class="w-10 h-10 bg-brand-100 text-brand-600 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        Education Details
+                    </h3>
+                    
+                    <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden group hover:border-brand-200 transition-colors">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-brand-50 rounded-bl-full -z-10 group-hover:scale-110 transition-transform"></div>
+                        <h4 class="text-xl font-bold text-slate-900">University of Delhi</h4>
+                        <p class="text-brand-600 font-medium mb-4 mt-1">Bachelor of Arts (B.A.)</p>
+                        <div class="flex items-center gap-4 text-sm text-slate-500 bg-slate-50 px-4 py-2 rounded-lg inline-flex border border-slate-100">
+                            <span class="flex items-center gap-1"><i class="fa-regular fa-calendar text-brand-500"></i> 2020 – 2024</span>
+                            <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+                            <span class="flex items-center gap-1"><i class="fa-solid fa-location-dot text-brand-500"></i> New Delhi, India</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interests -->
+                <div>
+                    <h3 class="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-3">
+                        <div class="w-10 h-10 bg-brand-100 text-brand-600 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-lightbulb"></i>
+                        </div>
+                        Professional Interests
+                    </h3>
+                    
+                    <div class="flex flex-wrap gap-4">
+                        <div class="bg-white border border-slate-200 px-6 py-4 rounded-xl shadow-sm flex items-center gap-3 hover:shadow-md hover:border-brand-200 transition-all hover:-translate-y-1">
+                            <i class="fa-solid fa-robot text-brand-500 text-lg"></i>
+                            <span class="font-medium text-slate-700">HR Technology & Automation</span>
+                        </div>
+                        <div class="bg-white border border-slate-200 px-6 py-4 rounded-xl shadow-sm flex items-center gap-3 hover:shadow-md hover:border-brand-200 transition-all hover:-translate-y-1">
+                            <i class="fa-solid fa-chart-line text-brand-500 text-lg"></i>
+                            <span class="font-medium text-slate-700">Data-Driven Process Improvement</span>
+                        </div>
+                        <div class="bg-white border border-slate-200 px-6 py-4 rounded-xl shadow-sm flex items-center gap-3 hover:shadow-md hover:border-brand-200 transition-all hover:-translate-y-1">
+                            <i class="fa-solid fa-face-smile text-brand-500 text-lg"></i>
+                            <span class="font-medium text-slate-700">Workplace Culture & Experience</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 reveal">
+            <div class="bg-slate-900 rounded-3xl overflow-hidden shadow-2xl no-print text-white">
+                <div class="grid grid-cols-1 lg:grid-cols-5">
+                    
+                    <!-- Contact Info Side -->
+                    <div class="lg:col-span-2 bg-brand-600 p-10 lg:p-12 text-white relative overflow-hidden">
+                        <!-- Decorative circle -->
+                        <div class="absolute top-0 right-0 -mr-16 -mt-16 w-48 h-48 rounded-full bg-brand-500 opacity-50 mix-blend-multiply"></div>
+                        <div class="absolute bottom-0 left-0 -ml-16 -mb-16 w-48 h-48 rounded-full bg-brand-700 opacity-50 mix-blend-multiply"></div>
+                        
+                        <div class="relative z-10">
+                            <h3 class="text-3xl font-bold mb-2">Get in touch</h3>
+                            <p class="text-brand-100 mb-10 text-sm leading-relaxed">Looking to optimize your HR operations or seeking a dedicated professional for your team? Let's connect.</p>
+                            
+                            <div class="space-y-6">
+                                <a href="mailto:sharmaxshivam@outlook.com" class="flex items-center gap-4 hover:translate-x-2 transition-transform">
+                                    <div class="w-12 h-12 bg-brand-500/50 rounded-full flex items-center justify-center shrink-0">
+                                        <i class="fa-solid fa-envelope"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-brand-200 font-medium uppercase tracking-wider">Email</p>
+                                        <p class="font-medium text-sm sm:text-base">sharmaxshivam@outlook.com</p>
+                                    </div>
+                                </a>
+                                
+                                <a href="tel:+918447882857" class="flex items-center gap-4 hover:translate-x-2 transition-transform">
+                                    <div class="w-12 h-12 bg-brand-500/50 rounded-full flex items-center justify-center shrink-0">
+                                        <i class="fa-solid fa-phone"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-brand-200 font-medium uppercase tracking-wider">Phone</p>
+                                        <p class="font-medium text-sm sm:text-base">+91 8447882857</p>
+                                    </div>
+                                </a>
+                                
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 bg-brand-500/50 rounded-full flex items-center justify-center shrink-0">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-brand-200 font-medium uppercase tracking-wider">Location</p>
+                                        <p class="font-medium text-sm sm:text-base">West Delhi, India</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Form Side -->
+                    <div class="lg:col-span-3 p-10 lg:p-12 relative">
+                        <form id="contactForm" class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="name" class="block text-sm font-medium text-slate-300 mb-2">Full Name</label>
+                                    <input type="text" id="name" required class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-shadow" placeholder="John Doe">
+                                </div>
+                                <div>
+                                    <label for="email" class="block text-sm font-medium text-slate-300 mb-2">Email Address</label>
+                                    <input type="email" id="email" required class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-shadow" placeholder="john@example.com">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label for="subject" class="block text-sm font-medium text-slate-300 mb-2">Subject</label>
+                                <input type="text" id="subject" required class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-shadow" placeholder="Job Opportunity / Inquiry">
+                            </div>
+
+                            <div>
+                                <label for="message" class="block text-sm font-medium text-slate-300 mb-2">Message</label>
+                                <textarea id="message" rows="4" required class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-shadow resize-none" placeholder="How can I help you?"></textarea>
+                            </div>
+
+                            <button type="submit" class="bg-brand-500 hover:bg-brand-400 text-slate-900 font-bold px-8 py-3 rounded-lg shadow-lg hover:shadow-brand-500/25 transition-all w-full sm:w-auto flex items-center justify-center gap-2">
+                                Send Message <i class="fa-solid fa-paper-plane text-sm"></i>
+                            </button>
+                            
+                            <!-- Success Message Box (Hidden by default) -->
+                            <div id="formSuccess" class="hidden mt-4 p-4 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-start gap-3">
+                                <i class="fa-solid fa-circle-check mt-0.5"></i>
+                                <div>
+                                    <h5 class="font-medium text-sm">Message Sent Successfully!</h5>
+                                    <p class="text-xs opacity-80 mt-1">Thank you for reaching out. I will get back to you shortly.</p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 py-10 text-center border-t border-slate-800 no-print">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-2xl font-bold tracking-tight text-white mb-6">
+                S<span class="text-brand-500">Sharma.</span>
+            </h2>
+            <div class="flex justify-center gap-6 mb-8 text-slate-400">
+                <a href="#" class="hover:text-brand-400 transition-colors p-2 bg-slate-900 rounded-full w-10 h-10 flex items-center justify-center hover:-translate-y-1">
+                    <i class="fa-brands fa-linkedin-in"></i>
+                </a>
+                <a href="mailto:sharmaxshivam@outlook.com" class="hover:text-brand-400 transition-colors p-2 bg-slate-900 rounded-full w-10 h-10 flex items-center justify-center hover:-translate-y-1">
+                    <i class="fa-solid fa-envelope"></i>
+                </a>
+            </div>
+            <p class="text-slate-500 text-sm">
+                &copy; <span id="year"></span> Shivam Sharma. All rights reserved.<br>
+                <span class="text-xs mt-2 block opacity-75">Built with HTML5, Tailwind CSS, and JavaScript.</span>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Update copyright year automatically
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                navbar.classList.add('shadow-sm');
+                navbar.classList.replace('bg-white/80', 'bg-white/95');
+            } else {
+                navbar.classList.remove('shadow-sm');
+                navbar.classList.replace('bg-white/95', 'bg-white/80');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+        
+        // Close mobile menu on link click
+        const mobileLinks = menu.querySelectorAll('a, button');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+
+        // Scroll Reveal Animation via Intersection Observer
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        const revealCallback = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // Only animate once
+                }
+            });
+        };
+
+        const revealOptions = {
+            threshold: 0.15,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const revealObserver = new IntersectionObserver(revealCallback, revealOptions);
+        
+        revealElements.forEach(el => {
+            revealObserver.observe(el);
+        });
+
+        // Form Submission Handling (Prevent default and show success message)
+        const contactForm = document.getElementById('contactForm');
+        const successMessage = document.getElementById('formSuccess');
+
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault(); // Prevent actual form submission for static preview
+            
+            // Basic client-side validation logic check (HTML5 'required' handles most)
+            const btn = contactForm.querySelector('button[type="submit"]');
+            const originalBtnText = btn.innerHTML;
+            
+            // Simulate sending state
+            btn.innerHTML = 'Sending... <i class="fa-solid fa-spinner fa-spin text-sm"></i>';
+            btn.classList.add('opacity-75', 'cursor-not-allowed');
+            btn.disabled = true;
+
+            // Simulate API request delay
+            setTimeout(() => {
+                // Show success message
+                successMessage.classList.remove('hidden');
+                
+                // Reset form fields
+                contactForm.reset();
+                
+                // Restore button state
+                btn.innerHTML = originalBtnText;
+                btn.classList.remove('opacity-75', 'cursor-not-allowed');
+                btn.disabled = false;
+
+                // Hide success message after 5 seconds
+                setTimeout(() => {
+                    successMessage.classList.add('hidden');
+                }, 5000);
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
