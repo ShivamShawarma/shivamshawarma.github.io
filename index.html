@@ -561,40 +561,32 @@
 
                     <!-- Contact Form Side -->
                     <div class="lg:col-span-3 p-10 lg:p-12 relative">
-                        <form id="contactForm" class="space-y-6">
+                        <!-- THE FORMSPREE ACTION IS ON THE LINE BELOW -->
+                        <form action="https://formspree.io/f/mrevrygo" method="POST" class="space-y-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
                                     <label for="name" class="block text-sm font-medium text-slate-300 mb-2">Full Name</label>
-                                    <input type="text" id="name" required class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-shadow" placeholder="John Doe">
+                                    <input type="text" id="name" name="name" required class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-shadow" placeholder="John Doe">
                                 </div>
                                 <div>
                                     <label for="email" class="block text-sm font-medium text-slate-300 mb-2">Email Address</label>
-                                    <input type="email" id="email" required class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-shadow" placeholder="john@example.com">
+                                    <input type="email" id="email" name="email" required class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-shadow" placeholder="john@example.com">
                                 </div>
                             </div>
                             
                             <div>
                                 <label for="subject" class="block text-sm font-medium text-slate-300 mb-2">Subject</label>
-                                <input type="text" id="subject" required class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-shadow" placeholder="Job Opportunity / Inquiry">
+                                <input type="text" id="subject" name="subject" required class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-shadow" placeholder="Job Opportunity / Inquiry">
                             </div>
 
                             <div>
                                 <label for="message" class="block text-sm font-medium text-slate-300 mb-2">Message</label>
-                                <textarea id="message" rows="4" required class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-shadow resize-none" placeholder="How can I help you?"></textarea>
+                                <textarea id="message" name="message" rows="4" required class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-shadow resize-none" placeholder="How can I help you?"></textarea>
                             </div>
 
                             <button type="submit" class="bg-brand-500 hover:bg-brand-400 text-slate-900 font-bold px-8 py-3 rounded-lg shadow-lg hover:shadow-brand-500/25 transition-all w-full sm:w-auto flex items-center justify-center gap-2">
                                 Send Message <i class="fa-solid fa-paper-plane text-sm"></i>
                             </button>
-                            
-                            <!-- Success Message Box (Hidden by default) -->
-                            <div id="formSuccess" class="hidden mt-4 p-4 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-start gap-3">
-                                <i class="fa-solid fa-circle-check mt-0.5"></i>
-                                <div>
-                                    <h5 class="font-medium text-sm">Message Sent Successfully!</h5>
-                                    <p class="text-xs opacity-80 mt-1">Thank you for reaching out. I will get back to you shortly.</p>
-                                </div>
-                            </div>
                         </form>
                     </div>
                     
@@ -677,42 +669,6 @@
         
         revealElements.forEach(el => {
             revealObserver.observe(el);
-        });
-
-        // Form Submission Handling (Prevent default and show success message)
-        const contactForm = document.getElementById('contactForm');
-        const successMessage = document.getElementById('formSuccess');
-
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault(); // Prevent actual form submission for static preview
-            
-            // Basic client-side validation logic check (HTML5 'required' handles most)
-            const btn = contactForm.querySelector('button[type="submit"]');
-            const originalBtnText = btn.innerHTML;
-            
-            // Simulate sending state
-            btn.innerHTML = 'Sending... <i class="fa-solid fa-spinner fa-spin text-sm"></i>';
-            btn.classList.add('opacity-75', 'cursor-not-allowed');
-            btn.disabled = true;
-
-            // Simulate API request delay
-            setTimeout(() => {
-                // Show success message
-                successMessage.classList.remove('hidden');
-                
-                // Reset form fields
-                contactForm.reset();
-                
-                // Restore button state
-                btn.innerHTML = originalBtnText;
-                btn.classList.remove('opacity-75', 'cursor-not-allowed');
-                btn.disabled = false;
-
-                // Hide success message after 5 seconds
-                setTimeout(() => {
-                    successMessage.classList.add('hidden');
-                }, 5000);
-            }, 1500);
         });
     </script>
 </body>
