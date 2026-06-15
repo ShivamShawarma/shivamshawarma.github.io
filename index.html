@@ -17,8 +17,18 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <!-- Prevent Flash of Unstyled Content (FOUC) for Dark Mode -->
+    <script>
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
@@ -44,6 +54,7 @@
                     animation: {
                         'blob': 'blob 7s infinite',
                         'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     },
                     keyframes: {
                         blob: {
@@ -78,6 +89,17 @@
             background: #94a3b8; 
         }
 
+        /* Dark mode scrollbar */
+        html.dark ::-webkit-scrollbar-track {
+            background: #0f172a; 
+        }
+        html.dark ::-webkit-scrollbar-thumb {
+            background: #334155; 
+        }
+        html.dark ::-webkit-scrollbar-thumb:hover {
+            background: #475569; 
+        }
+
         /* Reveal animations class */
         .reveal {
             opacity: 0;
@@ -100,6 +122,16 @@
             left: -8px;
             top: 6px;
         }
+        
+        html.dark .timeline-dot {
+            border-color: #134e4a;
+        }
+
+        /* AI Output Markdown Styles */
+        .prose-ai p { margin-bottom: 0.75rem; }
+        .prose-ai strong { color: inherit; font-weight: 600; }
+        .prose-ai ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 0.75rem; }
+        .prose-ai li { margin-bottom: 0.25rem; }
 
         @media print {
             body { background: white !important; color: black !important; }
@@ -109,33 +141,41 @@
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased selection:bg-brand-200 selection:text-brand-900 overflow-x-hidden">
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 antialiased selection:bg-brand-200 dark:selection:bg-brand-700 selection:text-brand-900 dark:selection:text-brand-50 overflow-x-hidden transition-colors duration-300">
 
     <!-- Navigation -->
-    <nav class="fixed w-full z-50 transition-all duration-300 backdrop-blur-md bg-white/80 border-b border-slate-200/50" id="navbar">
+    <nav class="fixed w-full z-50 transition-all duration-300 backdrop-blur-md bg-white/80 dark:bg-slate-900/80 border-b border-slate-200/50 dark:border-slate-800/50" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
-                <div class="flex-shrink-0 font-bold text-xl tracking-tight text-slate-900">
+                <div class="flex-shrink-0 font-bold text-xl tracking-tight text-slate-900 dark:text-white">
                     S<span class="text-brand-500">Sharma.</span>
                 </div>
                 
                  <!-- Desktop Menu -->
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="#about" class="text-gray-600 hover:text-brand-600 font-medium nav-link transition-colors">About</a>
-                    <a href="#experience" class="text-gray-600 hover:text-brand-600 font-medium nav-link transition-colors">Experience</a>
-                    <a href="#projects" class="text-gray-600 hover:text-brand-600 font-medium nav-link transition-colors">Projects</a>
-                    <a href="#skills" class="text-gray-600 hover:text-brand-600 font-medium nav-link transition-colors">Skills</a>
-                    <a href="#contact" class="text-gray-600 hover:text-brand-600 font-medium nav-link transition-colors">Contact</a>
+                <div class="hidden md:flex items-center space-x-6 lg:space-x-8">
+                    <a href="#about" class="text-gray-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 font-medium nav-link transition-colors text-sm lg:text-base">About</a>
+                    <a href="#experience" class="text-gray-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 font-medium nav-link transition-colors text-sm lg:text-base">Experience</a>
+                    <a href="#projects" class="text-gray-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 font-medium nav-link transition-colors text-sm lg:text-base">Projects</a>
+                    <a href="#ai-assistant" class="text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300 font-semibold nav-link transition-colors flex items-center gap-1 text-sm lg:text-base"><i class="fa-solid fa-sparkles text-xs"></i> AI Tools</a>
+                    <a href="#contact" class="text-gray-600 dark:text-slate-300 hover:text-brand-600 dark:hover:text-brand-400 font-medium nav-link transition-colors text-sm lg:text-base">Contact</a>
                     
-                    <!-- RESUME BUTTON - NOW LINKS TO PDF -->
-                    <a href="Shivam_Resume.pdf" target="_blank" class="px-5 py-2.5 bg-brand-500 text-white rounded-lg font-medium hover:bg-brand-600 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 flex items-center">
+                    <!-- RESUME BUTTON -->
+                    <a href="Shivam_Resume.pdf" target="_blank" class="px-4 py-2 lg:px-5 lg:py-2.5 bg-brand-500 text-white rounded-lg font-medium hover:bg-brand-600 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 flex items-center text-sm lg:text-base">
                         <i class="fa-regular fa-file-pdf mr-2"></i>Resume
                     </a>
+
+                    <!-- Theme Toggle -->
+                    <button id="theme-toggle" class="text-slate-500 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 focus:outline-none p-2 transition-colors" aria-label="Toggle Dark Mode">
+                        <i id="theme-icon" class="fa-solid fa-moon text-xl"></i>
+                    </button>
                 </div>
 
-                <!-- Mobile menu button -->
-                <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="text-slate-600 hover:text-slate-900 focus:outline-none p-2">
+                <!-- Mobile menu button & Mobile Theme Toggle -->
+                <div class="md:hidden flex items-center gap-4">
+                    <button id="theme-toggle-mobile" class="text-slate-500 dark:text-slate-400 hover:text-brand-600 focus:outline-none p-2" aria-label="Toggle Dark Mode">
+                        <i id="theme-icon-mobile" class="fa-solid fa-moon text-xl"></i>
+                    </button>
+                    <button id="mobile-menu-btn" class="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white focus:outline-none p-2">
                         <i class="fa-solid fa-bars text-xl"></i>
                     </button>
                 </div>
@@ -143,13 +183,14 @@
         </div>
 
         <!-- Mobile Menu -->
-        <div id="mobile-menu" class="md:hidden hidden bg-white border-b border-slate-200 absolute w-full shadow-lg">
+        <div id="mobile-menu" class="md:hidden hidden bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 absolute w-full shadow-lg">
             <div class="px-4 pt-2 pb-6 space-y-2 flex flex-col">
-                <a href="#about" class="block px-3 py-2 text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-600 rounded-md">About</a>
-                <a href="#experience" class="block px-3 py-2 text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-600 rounded-md">Experience</a>
-                <a href="#projects" class="block px-3 py-2 text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-600 rounded-md">Projects</a>
-                <a href="#skills" class="block px-3 py-2 text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-brand-600 rounded-md">Skills</a>
-                <a href="Shivam_Resume.pdf" target="_blank" class="mt-4 w-full text-left px-3 py-2 text-base font-medium text-brand-600 hover:bg-slate-50 rounded-md flex items-center gap-2">
+                <a href="#about" class="block px-3 py-2 text-base font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand-600 dark:hover:text-brand-400 rounded-md">About</a>
+                <a href="#experience" class="block px-3 py-2 text-base font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand-600 dark:hover:text-brand-400 rounded-md">Experience</a>
+                <a href="#projects" class="block px-3 py-2 text-base font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand-600 dark:hover:text-brand-400 rounded-md">Projects</a>
+                <a href="#skills" class="block px-3 py-2 text-base font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 hover:text-brand-600 dark:hover:text-brand-400 rounded-md">Skills</a>
+                <a href="#ai-assistant" class="block px-3 py-2 text-base font-medium text-brand-600 dark:text-brand-400 hover:bg-slate-50 dark:hover:bg-slate-700 rounded-md"><i class="fa-solid fa-sparkles mr-2"></i> AI HR Tools</a>
+                <a href="Shivam_Resume.pdf" target="_blank" class="mt-4 w-full text-left px-3 py-2 text-base font-medium text-brand-600 dark:text-brand-400 hover:bg-slate-50 dark:hover:bg-slate-700 rounded-md flex items-center gap-2">
                     <i class="fa-solid fa-file-pdf"></i> Download Resume
                 </a>
             </div>
@@ -159,22 +200,22 @@
     <!-- Hero Section -->
     <section id="hero" class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden min-h-screen flex items-center">
         <!-- Background decorative blobs -->
-        <div class="absolute top-0 -left-4 w-72 h-72 bg-brand-300 rounded-full mix-blend-multiply filter blur-2xl opacity-30 animate-blob"></div>
-        <div class="absolute top-0 -right-4 w-72 h-72 bg-brand-400 rounded-full mix-blend-multiply filter blur-2xl opacity-30 animate-blob animation-delay-2000"></div>
-        <div class="absolute -bottom-8 left-20 w-72 h-72 bg-emerald-300 rounded-full mix-blend-multiply filter blur-2xl opacity-30 animate-blob animation-delay-4000"></div>
+        <div class="absolute top-0 -left-4 w-72 h-72 bg-brand-300 dark:bg-brand-800 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-2xl opacity-30 dark:opacity-20 animate-blob"></div>
+        <div class="absolute top-0 -right-4 w-72 h-72 bg-brand-400 dark:bg-teal-900 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-2xl opacity-30 dark:opacity-20 animate-blob animation-delay-2000"></div>
+        <div class="absolute -bottom-8 left-20 w-72 h-72 bg-emerald-300 dark:bg-emerald-900 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-2xl opacity-30 dark:opacity-20 animate-blob animation-delay-4000"></div>
         
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 
                 <div class="animate-fade-in-up">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-50 text-brand-700 font-medium text-sm mb-6 border border-brand-100 shadow-sm">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-50 dark:bg-brand-900/30 text-brand-700 dark:text-brand-300 font-medium text-sm mb-6 border border-brand-100 dark:border-brand-800/50 shadow-sm">
                         <span class="w-2 h-2 rounded-full bg-brand-500 animate-pulse"></span> Open to new opportunities
                     </div>
-                    <h1 class="text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight mb-4">
-                        Hi, I'm <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-emerald-500">Shivam Sharma</span>
+                    <h1 class="text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight mb-4">
+                        Hi, I'm <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 to-emerald-500 dark:from-brand-400 dark:to-emerald-400">Shivam Sharma</span>
                     </h1>
-                    <h2 class="text-2xl lg:text-3xl font-semibold text-slate-700 mb-6">HR & Operations Professional</h2>
-                    <p class="text-lg text-slate-600 mb-8 max-w-lg leading-relaxed">
+                    <h2 class="text-2xl lg:text-3xl font-semibold text-slate-700 dark:text-slate-300 mb-6">HR & Operations Professional</h2>
+                    <p class="text-lg text-slate-600 dark:text-slate-400 mb-8 max-w-lg leading-relaxed">
                         Driving operational efficiency, employee experience, and compliance through data-driven HR strategies and seamless lifecycle management.
                     </p>
                     
@@ -182,22 +223,22 @@
                         <a href="#contact" class="bg-brand-600 hover:bg-brand-700 text-white px-6 py-3 rounded-xl font-medium shadow-lg shadow-brand-500/30 transition-all hover:-translate-y-0.5 flex items-center gap-2">
                             <i class="fa-solid fa-paper-plane"></i> Contact Me
                         </a>
-                        <a href="Shivam_Resume.pdf" target="_blank" class="bg-white text-slate-700 border border-slate-200 hover:border-slate-300 hover:bg-slate-50 px-6 py-3 rounded-xl font-medium shadow-sm transition-all flex items-center gap-2">
+                        <a href="Shivam_Resume.pdf" target="_blank" class="bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 px-6 py-3 rounded-xl font-medium shadow-sm transition-all flex items-center gap-2">
                             <i class="fa-solid fa-download"></i> Get Resume
                         </a>
                     </div>
 
-                    <div class="flex items-center gap-6 mt-10 text-slate-500">
-                        <a href="mailto:sharmaxshivam@outlook.com" class="hover:text-brand-600 transition-colors text-xl" aria-label="Email">
+                    <div class="flex items-center gap-6 mt-10 text-slate-500 dark:text-slate-400">
+                        <a href="mailto:sharmaxshivam@outlook.com" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors text-xl" aria-label="Email">
                             <i class="fa-solid fa-envelope"></i>
                         </a>
-                        <a href="tel:+918447882857" class="hover:text-brand-600 transition-colors text-xl" aria-label="Phone">
+                        <a href="tel:+918447882857" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors text-xl" aria-label="Phone">
                             <i class="fa-solid fa-phone"></i>
                         </a>
-                        <a href="https://www.linkedin.com/in/shivam-shawarma/" target="_blank" rel="noopener noreferrer" class="hover:text-brand-600 transition-colors text-xl" aria-label="LinkedIn">
+                        <a href="https://www.linkedin.com/in/shivam-shawarma/" target="_blank" rel="noopener noreferrer" class="hover:text-brand-600 dark:hover:text-brand-400 transition-colors text-xl" aria-label="LinkedIn">
                             <i class="fa-brands fa-linkedin"></i>
                         </a>
-                        <div class="h-6 w-px bg-slate-300"></div>
+                        <div class="h-6 w-px bg-slate-300 dark:bg-slate-700"></div>
                         <span class="flex items-center gap-2 text-sm">
                             <i class="fa-solid fa-location-dot"></i> West Delhi, India
                         </span>
@@ -205,18 +246,18 @@
                 </div>
 
                 <div class="relative hidden lg:block animate-fade-in-up" style="animation-delay: 0.2s;">
-                    <div class="absolute inset-0 bg-gradient-to-tr from-brand-100 to-white rounded-3xl transform rotate-3 scale-105 -z-10"></div>
+                    <div class="absolute inset-0 bg-gradient-to-tr from-brand-100 dark:from-brand-900/40 to-white dark:to-slate-800 rounded-3xl transform rotate-3 scale-105 -z-10"></div>
                     <!-- Placeholder image matching professional dimensions -->
-                    <img src="https://placehold.co/600x700/0d9488/ffffff?text=Shivam+Sharma\nHR+Professional" alt="Shivam Sharma" class="rounded-3xl shadow-2xl border-4 border-white object-cover w-full max-w-md mx-auto aspect-[4/5]">
+                    <img src="https://placehold.co/600x700/0d9488/ffffff?text=Shivam+Sharma\nHR+Professional" alt="Shivam Sharma" class="rounded-3xl shadow-2xl border-4 border-white dark:border-slate-800 object-cover w-full max-w-md mx-auto aspect-[4/5]">
                     
                     <!-- Floating Badge -->
-                    <div class="absolute -bottom-6 -left-6 bg-white p-4 rounded-2xl shadow-xl flex items-center gap-4 animate-bounce" style="animation-duration: 3s;">
-                        <div class="bg-brand-100 p-3 rounded-full text-brand-600">
+                    <div class="absolute -bottom-6 -left-6 bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-xl flex items-center gap-4 animate-bounce border border-slate-100 dark:border-slate-700" style="animation-duration: 3s;">
+                        <div class="bg-brand-100 dark:bg-brand-900/50 p-3 rounded-full text-brand-600 dark:text-brand-400">
                             <i class="fa-solid fa-chart-pie text-xl"></i>
                         </div>
                         <div>
-                            <p class="text-sm text-slate-500 font-medium">Core Focus</p>
-                            <p class="font-bold text-slate-800">HR Analytics & Ops</p>
+                            <p class="text-sm text-slate-500 dark:text-slate-400 font-medium">Core Focus</p>
+                            <p class="font-bold text-slate-800 dark:text-slate-100">HR Analytics & Ops</p>
                         </div>
                     </div>
                 </div>
@@ -226,41 +267,41 @@
     </section>
 
     <!-- About Section -->
-    <section id="about" class="py-20 bg-white">
+    <section id="about" class="py-20 bg-white dark:bg-slate-800/50 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 reveal">
             <div class="text-center max-w-3xl mx-auto mb-16">
-                <h2 class="text-sm font-bold text-brand-600 tracking-wider uppercase mb-2">Introduction</h2>
-                <h3 class="text-3xl md:text-4xl font-bold text-slate-900">About Me</h3>
+                <h2 class="text-sm font-bold text-brand-600 dark:text-brand-400 tracking-wider uppercase mb-2">Introduction</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white">About Me</h3>
                 <div class="w-16 h-1 bg-brand-500 mx-auto mt-4 rounded-full"></div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-12 gap-10 items-center">
-                <div class="md:col-span-5 bg-slate-50 p-8 rounded-3xl border border-slate-100">
-                    <h4 class="text-xl font-bold text-slate-800 mb-4 flex items-center gap-2">
+                <div class="md:col-span-5 bg-slate-50 dark:bg-slate-800 p-8 rounded-3xl border border-slate-100 dark:border-slate-700 shadow-sm dark:shadow-none">
+                    <h4 class="text-xl font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
                         <i class="fa-solid fa-bullseye text-brand-500"></i> Professional Values
                     </h4>
                     <ul class="space-y-4">
                         <li class="flex items-start gap-3">
                             <i class="fa-solid fa-check-circle text-brand-500 mt-1"></i>
-                            <span class="text-slate-600"><strong>Efficiency First:</strong> Streamlining workflows through SOPs and automated HRIS tools.</span>
+                            <span class="text-slate-600 dark:text-slate-300"><strong class="text-slate-800 dark:text-white">Efficiency First:</strong> Streamlining workflows through SOPs and automated HRIS tools.</span>
                         </li>
                         <li class="flex items-start gap-3">
                             <i class="fa-solid fa-check-circle text-brand-500 mt-1"></i>
-                            <span class="text-slate-600"><strong>Data-Driven:</strong> Utilizing analytics to track attrition, TAT, and organizational health.</span>
+                            <span class="text-slate-600 dark:text-slate-300"><strong class="text-slate-800 dark:text-white">Data-Driven:</strong> Utilizing analytics to track attrition, TAT, and organizational health.</span>
                         </li>
                         <li class="flex items-start gap-3">
                             <i class="fa-solid fa-check-circle text-brand-500 mt-1"></i>
-                            <span class="text-slate-600"><strong>People-Centric:</strong> Fostering engagement and addressing grievances to build strong workplace cultures.</span>
+                            <span class="text-slate-600 dark:text-slate-300"><strong class="text-slate-800 dark:text-white">People-Centric:</strong> Fostering engagement and addressing grievances to build strong workplace cultures.</span>
                         </li>
                     </ul>
                 </div>
 
                 <div class="md:col-span-7">
-                    <h4 class="text-2xl font-bold text-slate-900 mb-4">Dedicated to building better workplaces.</h4>
-                    <p class="text-lg text-slate-600 leading-relaxed mb-6">
+                    <h4 class="text-2xl font-bold text-slate-900 dark:text-white mb-4">Dedicated to building better workplaces.</h4>
+                    <p class="text-lg text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
                         I am an organized and analytical HR & Operations professional with extensive experience in navigating complex employee lifecycle processes. My expertise lies at the intersection of process improvement, compliance administration, and employee experience.
                     </p>
-                    <p class="text-lg text-slate-600 leading-relaxed">
+                    <p class="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
                         From managing end-to-end onboarding and offboarding to coordinating payroll, resolving support tickets, and organizing large-scale engagement initiatives, I focus on creating seamless operations that allow teams to thrive. I am deeply familiar with maintaining audit-ready documentation and leveraging HR systems to deliver actionable workforce insights.
                     </p>
                 </div>
@@ -269,51 +310,51 @@
     </section>
 
     <!-- Experience Section -->
-    <section id="experience" class="py-20 bg-slate-50">
+    <section id="experience" class="py-20 bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 reveal">
             <div class="mb-16">
-                <h2 class="text-sm font-bold text-brand-600 tracking-wider uppercase mb-2">Career Path</h2>
-                <h3 class="text-3xl md:text-4xl font-bold text-slate-900">Professional Experience</h3>
+                <h2 class="text-sm font-bold text-brand-600 dark:text-brand-400 tracking-wider uppercase mb-2">Career Path</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white">Professional Experience</h3>
                 <div class="w-16 h-1 bg-brand-500 mt-4 rounded-full"></div>
             </div>
 
             <!-- Timeline Container -->
-            <div class="relative border-l-2 border-slate-200 ml-3 md:ml-4 pb-4">
+            <div class="relative border-l-2 border-slate-200 dark:border-slate-700 ml-3 md:ml-4 pb-4">
                 
                 <!-- Experience Item -->
                 <div class="mb-10 relative pl-8 md:pl-12">
                     <div class="timeline-dot shadow-sm"></div>
                     
-                    <div class="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                    <div class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-2xl shadow-sm dark:shadow-none border border-slate-100 dark:border-slate-700 hover:shadow-md transition-shadow">
                         <div class="flex flex-col md:flex-row md:items-center justify-between mb-4">
                             <div>
-                                <h4 class="text-xl md:text-2xl font-bold text-slate-900">Associate – HR & Operations</h4>
-                                <h5 class="text-lg font-medium text-brand-600 mt-1">Neotas Development Pvt. Ltd.</h5>
-                                <span class="text-sm text-slate-500 italic block mt-1">Enhanced Due Diligence Firm</span>
+                                <h4 class="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">Associate – HR & Operations</h4>
+                                <h5 class="text-lg font-medium text-brand-600 dark:text-brand-400 mt-1">Neotas Development Pvt. Ltd.</h5>
+                                <span class="text-sm text-slate-500 dark:text-slate-400 italic block mt-1">Enhanced Due Diligence Firm</span>
                             </div>
-                            <div class="mt-3 md:mt-0 inline-flex items-center gap-2 bg-slate-100 text-slate-700 px-4 py-1.5 rounded-full text-sm font-medium">
+                            <div class="mt-3 md:mt-0 inline-flex items-center gap-2 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 px-4 py-1.5 rounded-full text-sm font-medium border border-transparent dark:border-slate-600">
                                 <i class="fa-regular fa-calendar-alt"></i> Nov 2023 – Present
                             </div>
                         </div>
 
-                        <div class="space-y-4 text-slate-600 mt-6">
+                        <div class="space-y-4 text-slate-600 dark:text-slate-400 mt-6">
                             <p class="relative pl-5 before:content-[''] before:absolute before:left-0 before:top-2 before:w-1.5 before:h-1.5 before:bg-brand-400 before:rounded-full">
-                                <strong class="text-slate-800">Employee Lifecycle & Operations:</strong> Managed end-to-end HR operations using Keka HRMS, covering onboarding, background verification (BGV), probation tracking, and seamless offboarding. Oversaw attendance, leave regularization, and payroll coordination in alignment with Finance.
+                                <strong class="text-slate-800 dark:text-slate-200">Employee Lifecycle & Operations:</strong> Managed end-to-end HR operations using Keka HRMS, covering onboarding, background verification (BGV), probation tracking, and seamless offboarding. Oversaw attendance, leave regularization, and payroll coordination in alignment with Finance.
                             </p>
                             <p class="relative pl-5 before:content-[''] before:absolute before:left-0 before:top-2 before:w-1.5 before:h-1.5 before:bg-brand-400 before:rounded-full">
-                                <strong class="text-slate-800">Employee Engagement & Employer Branding:</strong> Orchestrated company-wide engagement initiatives (townhalls, policy roadshows, Rewards & Recognition programs, and festive events). 
+                                <strong class="text-slate-800 dark:text-slate-200">Employee Engagement & Employer Branding:</strong> Orchestrated company-wide engagement initiatives (townhalls, policy roadshows, Rewards & Recognition programs, and festive events). 
                             </p>
                             <p class="relative pl-5 before:content-[''] before:absolute before:left-0 before:top-2 before:w-1.5 before:h-1.5 before:bg-brand-400 before:rounded-full">
-                                <strong class="text-slate-800">Policy & Compliance Management:</strong> Drafted and maintained core HR policies and standard operating procedures (SOPs). Drove ISO compliance initiatives by managing asset documentation, access control records, and audit evidence preparation.
+                                <strong class="text-slate-800 dark:text-slate-200">Policy & Compliance Management:</strong> Drafted and maintained core HR policies and standard operating procedures (SOPs). Drove ISO compliance initiatives by managing asset documentation, access control records, and audit evidence preparation.
                             </p>
                             <p class="relative pl-5 before:content-[''] before:absolute before:left-0 before:top-2 before:w-1.5 before:h-1.5 before:bg-brand-400 before:rounded-full">
-                                <strong class="text-slate-800">HR Analytics & Reporting:</strong> Analyzed Employee Satisfaction Surveys (ESS) and developed monthly MIS dashboards tracking attrition, HR ticket turnaround time (TAT), and workforce metrics to support leadership decision-making.
+                                <strong class="text-slate-800 dark:text-slate-200">HR Analytics & Reporting:</strong> Analyzed Employee Satisfaction Surveys (ESS) and developed monthly MIS dashboards tracking attrition, HR ticket turnaround time (TAT), and workforce metrics to support leadership decision-making.
                             </p>
                             <p class="relative pl-5 before:content-[''] before:absolute before:left-0 before:top-2 before:w-1.5 before:h-1.5 before:bg-brand-400 before:rounded-full">
-                                <strong class="text-slate-800">Employee Relations & Grievance Handling:</strong> Served as the primary point of contact for HR support tickets, employee grievances, and policy interpretation, ensuring timely resolution and a positive workplace culture.
+                                <strong class="text-slate-800 dark:text-slate-200">Employee Relations & Grievance Handling:</strong> Served as the primary point of contact for HR support tickets, employee grievances, and policy interpretation, ensuring timely resolution and a positive workplace culture.
                             </p>
                             <p class="relative pl-5 before:content-[''] before:absolute before:left-0 before:top-2 before:w-1.5 before:h-1.5 before:bg-brand-400 before:rounded-full">
-                                <strong class="text-slate-800">Talent Acquisition & Administration:</strong> Supported full-cycle recruitment by sourcing, screening, and coordinating interviews. Managed employee asset allocation, recovery, and general office administration.
+                                <strong class="text-slate-800 dark:text-slate-200">Talent Acquisition & Administration:</strong> Supported full-cycle recruitment by sourcing, screening, and coordinating interviews. Managed employee asset allocation, recovery, and general office administration.
                             </p>
                         </div>
                     </div>
@@ -324,56 +365,56 @@
     </section>
 
     <!-- Projects Section -->
-    <section id="projects" class="py-20 bg-white">
+    <section id="projects" class="py-20 bg-white dark:bg-slate-800/50 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 reveal">
             <div class="text-center max-w-3xl mx-auto mb-16">
-                <h2 class="text-sm font-bold text-brand-600 tracking-wider uppercase mb-2">Highlights</h2>
-                <h3 class="text-3xl md:text-4xl font-bold text-slate-900">Key Projects & Initiatives</h3>
+                <h2 class="text-sm font-bold text-brand-600 dark:text-brand-400 tracking-wider uppercase mb-2">Highlights</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white">Key Projects & Initiatives</h3>
                 <div class="w-16 h-1 bg-brand-500 mx-auto mt-4 rounded-full"></div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 
                 <!-- Project Card 1 -->
-                <div class="group bg-slate-50 rounded-2xl p-8 border border-slate-100 hover:shadow-xl hover:border-brand-100 hover:-translate-y-1 transition-all duration-300">
-                    <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-brand-500 text-xl mb-6 group-hover:bg-brand-500 group-hover:text-white transition-colors">
+                <div class="group bg-slate-50 dark:bg-slate-800 rounded-2xl p-8 border border-slate-100 dark:border-slate-700 hover:shadow-xl dark:hover:shadow-lg dark:hover:shadow-brand-900/20 hover:border-brand-100 dark:hover:border-brand-700 hover:-translate-y-1 transition-all duration-300">
+                    <div class="w-12 h-12 bg-white dark:bg-slate-900 rounded-xl shadow-sm flex items-center justify-center text-brand-500 dark:text-brand-400 text-xl mb-6 group-hover:bg-brand-500 group-hover:text-white dark:group-hover:bg-brand-500 dark:group-hover:text-white transition-colors">
                         <i class="fa-solid fa-file-signature"></i>
                     </div>
-                    <h4 class="text-xl font-bold text-slate-900 mb-3">Policy & SOP Development</h4>
-                    <p class="text-slate-600 leading-relaxed">
+                    <h4 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Policy & SOP Development</h4>
+                    <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
                         Created comprehensive Standard Operating Procedures (SOPs) for critical processes including Offboarding, Leave & Attendance, HR Support Tickets, and Background Verification. Developed and completely updated broader HR policies including C&B, Performance Management, and D&I documentation.
                     </p>
                 </div>
 
                 <!-- Project Card 2 -->
-                <div class="group bg-slate-50 rounded-2xl p-8 border border-slate-100 hover:shadow-xl hover:border-brand-100 hover:-translate-y-1 transition-all duration-300">
-                    <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-brand-500 text-xl mb-6 group-hover:bg-brand-500 group-hover:text-white transition-colors">
+                <div class="group bg-slate-50 dark:bg-slate-800 rounded-2xl p-8 border border-slate-100 dark:border-slate-700 hover:shadow-xl dark:hover:shadow-lg dark:hover:shadow-brand-900/20 hover:border-brand-100 dark:hover:border-brand-700 hover:-translate-y-1 transition-all duration-300">
+                    <div class="w-12 h-12 bg-white dark:bg-slate-900 rounded-xl shadow-sm flex items-center justify-center text-brand-500 dark:text-brand-400 text-xl mb-6 group-hover:bg-brand-500 group-hover:text-white dark:group-hover:bg-brand-500 dark:group-hover:text-white transition-colors">
                         <i class="fa-solid fa-shield-halved"></i>
                     </div>
-                    <h4 class="text-xl font-bold text-slate-900 mb-3">Compliance & Training Design</h4>
-                    <p class="text-slate-600 leading-relaxed">
+                    <h4 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Compliance & Training Design</h4>
+                    <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
                         Played a pivotal role in supporting ISO documentation and audit evidence preparation. Designed comprehensive internal cybersecurity and compliance training presentations, heavily focusing on portable & removable media best practices for the workforce.
                     </p>
                 </div>
 
                 <!-- Project Card 3 -->
-                <div class="group bg-slate-50 rounded-2xl p-8 border border-slate-100 hover:shadow-xl hover:border-brand-100 hover:-translate-y-1 transition-all duration-300">
-                    <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-brand-500 text-xl mb-6 group-hover:bg-brand-500 group-hover:text-white transition-colors">
+                <div class="group bg-slate-50 dark:bg-slate-800 rounded-2xl p-8 border border-slate-100 dark:border-slate-700 hover:shadow-xl dark:hover:shadow-lg dark:hover:shadow-brand-900/20 hover:border-brand-100 dark:hover:border-brand-700 hover:-translate-y-1 transition-all duration-300">
+                    <div class="w-12 h-12 bg-white dark:bg-slate-900 rounded-xl shadow-sm flex items-center justify-center text-brand-500 dark:text-brand-400 text-xl mb-6 group-hover:bg-brand-500 group-hover:text-white dark:group-hover:bg-brand-500 dark:group-hover:text-white transition-colors">
                         <i class="fa-solid fa-users-rays"></i>
                     </div>
-                    <h4 class="text-xl font-bold text-slate-900 mb-3">Engagement & Event Management</h4>
-                    <p class="text-slate-600 leading-relaxed">
+                    <h4 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Engagement & Event Management</h4>
+                    <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
                         Managed company-wide employee engagement initiatives and recurring surveys. Successfully organized and tracked complex internal events like the Neotas Badminton Tournament, and managed the end-to-end execution of the Rewards & Recognition program.
                     </p>
                 </div>
 
                 <!-- Project Card 4 -->
-                <div class="group bg-slate-50 rounded-2xl p-8 border border-slate-100 hover:shadow-xl hover:border-brand-100 hover:-translate-y-1 transition-all duration-300">
-                    <div class="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center text-brand-500 text-xl mb-6 group-hover:bg-brand-500 group-hover:text-white transition-colors">
+                <div class="group bg-slate-50 dark:bg-slate-800 rounded-2xl p-8 border border-slate-100 dark:border-slate-700 hover:shadow-xl dark:hover:shadow-lg dark:hover:shadow-brand-900/20 hover:border-brand-100 dark:hover:border-brand-700 hover:-translate-y-1 transition-all duration-300">
+                    <div class="w-12 h-12 bg-white dark:bg-slate-900 rounded-xl shadow-sm flex items-center justify-center text-brand-500 dark:text-brand-400 text-xl mb-6 group-hover:bg-brand-500 group-hover:text-white dark:group-hover:bg-brand-500 dark:group-hover:text-white transition-colors">
                         <i class="fa-solid fa-chart-pie"></i>
                     </div>
-                    <h4 class="text-xl font-bold text-slate-900 mb-3">HR Reporting Frameworks</h4>
-                    <p class="text-slate-600 leading-relaxed">
+                    <h4 class="text-xl font-bold text-slate-900 dark:text-white mb-3">HR Reporting Frameworks</h4>
+                    <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
                         Designed and implemented sophisticated tracking frameworks that provided leadership with actionable insights covering monthly attrition, employee satisfaction survey results, HR ticket resolution times, and general workforce analytics.
                     </p>
                 </div>
@@ -383,7 +424,7 @@
     </section>
 
     <!-- Skills Section -->
-    <section id="skills" class="py-20 bg-slate-900 text-white">
+    <section id="skills" class="py-20 bg-slate-900 text-white transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 reveal">
             <div class="mb-16">
                 <h2 class="text-sm font-bold text-brand-400 tracking-wider uppercase mb-2">Competencies</h2>
@@ -457,53 +498,105 @@
         </div>
     </section>
 
+    <!-- NEW: Gemini AI HR Assistant Section -->
+    <section id="ai-assistant" class="py-20 bg-slate-100 dark:bg-slate-950 transition-colors duration-300 relative overflow-hidden no-print">
+        <!-- AI Background Elements -->
+        <div class="absolute top-1/2 left-0 -translate-y-1/2 w-64 h-64 bg-indigo-500/10 dark:bg-indigo-500/20 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-3xl opacity-70"></div>
+        <div class="absolute top-1/2 right-0 -translate-y-1/2 w-64 h-64 bg-brand-500/10 dark:bg-brand-500/20 rounded-full mix-blend-multiply dark:mix-blend-lighten filter blur-3xl opacity-70"></div>
+
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 reveal">
+            <div class="text-center mb-12">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 font-medium text-sm mb-4 border border-indigo-200 dark:border-indigo-800/50">
+                    <i class="fa-solid fa-sparkles text-indigo-500 dark:text-indigo-400"></i> Powered by Gemini AI
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">Shivam's AI HR Toolkit</h2>
+                <p class="text-slate-600 dark:text-slate-400 text-lg">See my passion for HR Tech in action. Use the AI to generate a custom HR policy or evaluate how my profile fits your open role.</p>
+            </div>
+
+            <!-- AI Interface Card -->
+            <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 md:p-10 shadow-2xl border border-slate-200 dark:border-slate-700 transition-colors duration-300">
+                
+                <div class="mb-6">
+                    <label for="ai-input" class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">What would you like the AI to do?</label>
+                    <textarea id="ai-input" rows="4" class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-shadow resize-none" placeholder="e.g., 'Write a comprehensive Work From Home policy' OR paste a Job Description here to see how I match it..."></textarea>
+                </div>
+
+                <div class="flex flex-wrap gap-4 mb-8">
+                    <button onclick="handleAI('policy')" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-6 py-3 rounded-xl shadow-md shadow-indigo-500/20 transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2 group">
+                        <i class="fa-solid fa-file-contract group-hover:animate-pulse-fast"></i> ✨ Draft HR Policy
+                    </button>
+                    <button onclick="handleAI('pitch')" class="flex-1 bg-brand-600 hover:bg-brand-700 text-white font-medium px-6 py-3 rounded-xl shadow-md shadow-brand-500/20 transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2 group">
+                        <i class="fa-solid fa-bullseye group-hover:animate-pulse-fast"></i> ✨ Pitch Me (JD Match)
+                    </button>
+                </div>
+
+                <!-- Loading State -->
+                <div id="ai-loading" class="hidden flex flex-col items-center justify-center py-8">
+                    <div class="w-12 h-12 border-4 border-slate-200 dark:border-slate-700 border-t-brand-500 rounded-full animate-spin mb-4"></div>
+                    <p class="text-slate-500 dark:text-slate-400 font-medium animate-pulse">Gemini AI is processing your request...</p>
+                </div>
+
+                <!-- AI Output Area -->
+                <div id="ai-output-container" class="hidden relative">
+                    <div class="absolute -top-3 left-6 bg-white dark:bg-slate-800 px-2 text-xs font-bold text-brand-500 uppercase tracking-wider">AI Output</div>
+                    <div class="bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-2xl p-6 text-slate-700 dark:text-slate-300 text-sm md:text-base leading-relaxed overflow-y-auto max-h-96 custom-scrollbar">
+                        <div id="ai-output" class="prose-ai">
+                            <!-- Content goes here -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
     <!-- Education & Interests Section -->
-    <section class="py-20 bg-slate-50">
+    <section class="py-20 bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 reveal">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
                 
                 <!-- Education -->
                 <div>
-                    <h3 class="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-3">
-                        <div class="w-10 h-10 bg-brand-100 text-brand-600 rounded-lg flex items-center justify-center">
+                    <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-8 flex items-center gap-3">
+                        <div class="w-10 h-10 bg-brand-100 dark:bg-brand-900/50 text-brand-600 dark:text-brand-400 rounded-lg flex items-center justify-center">
                             <i class="fa-solid fa-graduation-cap"></i>
                         </div>
                         Education Details
                     </h3>
                     
-                    <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden group hover:border-brand-200 transition-colors">
-                        <div class="absolute top-0 right-0 w-24 h-24 bg-brand-50 rounded-bl-full -z-10 group-hover:scale-110 transition-transform"></div>
-                        <h4 class="text-xl font-bold text-slate-900">University of Delhi</h4>
-                        <p class="text-brand-600 font-medium mb-4 mt-1">Bachelor of Arts (B.A.)</p>
-                        <div class="flex items-center gap-4 text-sm text-slate-500 bg-slate-50 px-4 py-2 rounded-lg inline-flex border border-slate-100">
-                            <span class="flex items-center gap-1"><i class="fa-regular fa-calendar text-brand-500"></i> 2020 – 2024</span>
-                            <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
-                            <span class="flex items-center gap-1"><i class="fa-solid fa-location-dot text-brand-500"></i> New Delhi, India</span>
+                    <div class="bg-white dark:bg-slate-800 p-8 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm dark:shadow-none relative overflow-hidden group hover:border-brand-200 dark:hover:border-brand-700 transition-colors">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-brand-50 dark:bg-slate-700/50 rounded-bl-full -z-10 group-hover:scale-110 transition-transform"></div>
+                        <h4 class="text-xl font-bold text-slate-900 dark:text-white">University of Delhi</h4>
+                        <p class="text-brand-600 dark:text-brand-400 font-medium mb-4 mt-1">Bachelor of Arts (B.A.)</p>
+                        <div class="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-900/50 px-4 py-2 rounded-lg inline-flex border border-slate-100 dark:border-slate-700">
+                            <span class="flex items-center gap-1"><i class="fa-regular fa-calendar text-brand-500 dark:text-brand-400"></i> 2020 – 2024</span>
+                            <span class="w-1 h-1 bg-slate-300 dark:bg-slate-600 rounded-full"></span>
+                            <span class="flex items-center gap-1"><i class="fa-solid fa-location-dot text-brand-500 dark:text-brand-400"></i> New Delhi, India</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Interests -->
                 <div>
-                    <h3 class="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-3">
-                        <div class="w-10 h-10 bg-brand-100 text-brand-600 rounded-lg flex items-center justify-center">
+                    <h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-8 flex items-center gap-3">
+                        <div class="w-10 h-10 bg-brand-100 dark:bg-brand-900/50 text-brand-600 dark:text-brand-400 rounded-lg flex items-center justify-center">
                             <i class="fa-solid fa-lightbulb"></i>
                         </div>
                         Professional Interests
                     </h3>
                     
                     <div class="flex flex-wrap gap-4">
-                        <div class="bg-white border border-slate-200 px-6 py-4 rounded-xl shadow-sm flex items-center gap-3 hover:shadow-md hover:border-brand-200 transition-all hover:-translate-y-1">
-                            <i class="fa-solid fa-robot text-brand-500 text-lg"></i>
-                            <span class="font-medium text-slate-700">HR Technology & Automation</span>
+                        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-6 py-4 rounded-xl shadow-sm dark:shadow-none flex items-center gap-3 hover:shadow-md hover:border-brand-200 dark:hover:border-brand-700 transition-all hover:-translate-y-1">
+                            <i class="fa-solid fa-robot text-brand-500 dark:text-brand-400 text-lg"></i>
+                            <span class="font-medium text-slate-700 dark:text-slate-300">HR Technology & Automation</span>
                         </div>
-                        <div class="bg-white border border-slate-200 px-6 py-4 rounded-xl shadow-sm flex items-center gap-3 hover:shadow-md hover:border-brand-200 transition-all hover:-translate-y-1">
-                            <i class="fa-solid fa-chart-line text-brand-500 text-lg"></i>
-                            <span class="font-medium text-slate-700">Data-Driven Process Improvement</span>
+                        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-6 py-4 rounded-xl shadow-sm dark:shadow-none flex items-center gap-3 hover:shadow-md hover:border-brand-200 dark:hover:border-brand-700 transition-all hover:-translate-y-1">
+                            <i class="fa-solid fa-chart-line text-brand-500 dark:text-brand-400 text-lg"></i>
+                            <span class="font-medium text-slate-700 dark:text-slate-300">Data-Driven Process Improvement</span>
                         </div>
-                        <div class="bg-white border border-slate-200 px-6 py-4 rounded-xl shadow-sm flex items-center gap-3 hover:shadow-md hover:border-brand-200 transition-all hover:-translate-y-1">
-                            <i class="fa-solid fa-face-smile text-brand-500 text-lg"></i>
-                            <span class="font-medium text-slate-700">Workplace Culture & Experience</span>
+                        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-6 py-4 rounded-xl shadow-sm dark:shadow-none flex items-center gap-3 hover:shadow-md hover:border-brand-200 dark:hover:border-brand-700 transition-all hover:-translate-y-1">
+                            <i class="fa-solid fa-face-smile text-brand-500 dark:text-brand-400 text-lg"></i>
+                            <span class="font-medium text-slate-700 dark:text-slate-300">Workplace Culture & Experience</span>
                         </div>
                     </div>
                 </div>
@@ -513,48 +606,48 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="py-20 bg-white">
+    <section id="contact" class="py-20 bg-white dark:bg-slate-800/50 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 reveal">
-            <div class="bg-slate-900 rounded-3xl overflow-hidden shadow-2xl no-print text-white">
+            <div class="bg-slate-900 rounded-3xl overflow-hidden shadow-2xl no-print text-white dark:border dark:border-slate-700">
                 <div class="grid grid-cols-1 lg:grid-cols-5">
                     
                     <!-- Contact Info Side -->
-                    <div class="lg:col-span-2 bg-brand-600 p-10 lg:p-12 text-white relative overflow-hidden">
+                    <div class="lg:col-span-2 bg-brand-600 dark:bg-brand-800 p-10 lg:p-12 text-white relative overflow-hidden transition-colors duration-300">
                         <!-- Decorative circle -->
-                        <div class="absolute top-0 right-0 -mr-16 -mt-16 w-48 h-48 rounded-full bg-brand-500 opacity-50 mix-blend-multiply"></div>
-                        <div class="absolute bottom-0 left-0 -ml-16 -mb-16 w-48 h-48 rounded-full bg-brand-700 opacity-50 mix-blend-multiply"></div>
+                        <div class="absolute top-0 right-0 -mr-16 -mt-16 w-48 h-48 rounded-full bg-brand-500 dark:bg-brand-700 opacity-50 mix-blend-multiply dark:mix-blend-normal"></div>
+                        <div class="absolute bottom-0 left-0 -ml-16 -mb-16 w-48 h-48 rounded-full bg-brand-700 dark:bg-brand-900 opacity-50 mix-blend-multiply dark:mix-blend-normal"></div>
                         
                         <div class="relative z-10">
                             <h3 class="text-3xl font-bold mb-2">Get in touch</h3>
-                            <p class="text-brand-100 mb-10 text-sm leading-relaxed">Looking to optimize your HR operations or seeking a dedicated professional for your team? Let's connect.</p>
+                            <p class="text-brand-100 dark:text-brand-200 mb-10 text-sm leading-relaxed">Looking to optimize your HR operations or seeking a dedicated professional for your team? Let's connect.</p>
                             
                             <div class="space-y-6">
                                 <a href="mailto:sharmaxshivam@outlook.com" class="flex items-center gap-4 hover:translate-x-2 transition-transform">
-                                    <div class="w-12 h-12 bg-brand-500/50 rounded-full flex items-center justify-center shrink-0">
+                                    <div class="w-12 h-12 bg-brand-500/50 dark:bg-brand-900/50 rounded-full flex items-center justify-center shrink-0">
                                         <i class="fa-solid fa-envelope"></i>
                                     </div>
                                     <div>
-                                        <p class="text-xs text-brand-200 font-medium uppercase tracking-wider">Email</p>
+                                        <p class="text-xs text-brand-200 dark:text-brand-300 font-medium uppercase tracking-wider">Email</p>
                                         <p class="font-medium text-sm sm:text-base">sharmaxshivam@outlook.com</p>
                                     </div>
                                 </a>
                                 
                                 <a href="tel:+918447882857" class="flex items-center gap-4 hover:translate-x-2 transition-transform">
-                                    <div class="w-12 h-12 bg-brand-500/50 rounded-full flex items-center justify-center shrink-0">
+                                    <div class="w-12 h-12 bg-brand-500/50 dark:bg-brand-900/50 rounded-full flex items-center justify-center shrink-0">
                                         <i class="fa-solid fa-phone"></i>
                                     </div>
                                     <div>
-                                        <p class="text-xs text-brand-200 font-medium uppercase tracking-wider">Phone</p>
+                                        <p class="text-xs text-brand-200 dark:text-brand-300 font-medium uppercase tracking-wider">Phone</p>
                                         <p class="font-medium text-sm sm:text-base">+91 8447882857</p>
                                     </div>
                                 </a>
                                 
                                 <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 bg-brand-500/50 rounded-full flex items-center justify-center shrink-0">
+                                    <div class="w-12 h-12 bg-brand-500/50 dark:bg-brand-900/50 rounded-full flex items-center justify-center shrink-0">
                                         <i class="fa-solid fa-location-dot"></i>
                                     </div>
                                     <div>
-                                        <p class="text-xs text-brand-200 font-medium uppercase tracking-wider">Location</p>
+                                        <p class="text-xs text-brand-200 dark:text-brand-300 font-medium uppercase tracking-wider">Location</p>
                                         <p class="font-medium text-sm sm:text-base">West Delhi, India</p>
                                     </div>
                                 </div>
@@ -563,7 +656,7 @@
                     </div>
 
                     <!-- Contact Form Side -->
-                    <div class="lg:col-span-3 p-10 lg:p-12 relative">
+                    <div class="lg:col-span-3 p-10 lg:p-12 relative bg-slate-900 dark:bg-slate-900 transition-colors duration-300">
                         <!-- THE FORMSPREE ACTION IS ON THE LINE BELOW -->
                         <form action="https://formspree.io/f/mrevrygo" method="POST" class="space-y-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -587,7 +680,7 @@
                                 <textarea id="message" name="message" rows="4" required class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent transition-shadow resize-none" placeholder="How can I help you?"></textarea>
                             </div>
 
-                            <button type="submit" class="bg-brand-500 hover:bg-brand-400 text-slate-900 font-bold px-8 py-3 rounded-lg shadow-lg hover:shadow-brand-500/25 transition-all w-full sm:w-auto flex items-center justify-center gap-2">
+                            <button type="submit" class="bg-brand-500 hover:bg-brand-400 dark:bg-brand-600 dark:hover:bg-brand-500 text-white font-bold px-8 py-3 rounded-lg shadow-lg hover:shadow-brand-500/25 transition-all w-full sm:w-auto flex items-center justify-center gap-2">
                                 Send Message <i class="fa-solid fa-paper-plane text-sm"></i>
                             </button>
                         </form>
@@ -599,13 +692,13 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-slate-950 py-10 text-center border-t border-slate-800 no-print">
+    <footer class="bg-slate-950 py-10 text-center border-t border-slate-800 no-print transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4">
             <h2 class="text-2xl font-bold tracking-tight text-white mb-6">
                 S<span class="text-brand-500">Sharma.</span>
             </h2>
             <div class="flex justify-center gap-6 mb-8 text-slate-400">
-                <a href="#" class="hover:text-brand-400 transition-colors p-2 bg-slate-900 rounded-full w-10 h-10 flex items-center justify-center hover:-translate-y-1">
+                <a href="https://www.linkedin.com/in/shivam-shawarma/" target="_blank" rel="noopener noreferrer" class="hover:text-brand-400 transition-colors p-2 bg-slate-900 rounded-full w-10 h-10 flex items-center justify-center hover:-translate-y-1">
                     <i class="fa-brands fa-linkedin-in"></i>
                 </a>
                 <a href="mailto:sharmaxshivam@outlook.com" class="hover:text-brand-400 transition-colors p-2 bg-slate-900 rounded-full w-10 h-10 flex items-center justify-center hover:-translate-y-1">
@@ -624,15 +717,53 @@
         // Update copyright year automatically
         document.getElementById('year').textContent = new Date().getFullYear();
 
+        // Theme Toggle Logic
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const themeToggleBtnMobile = document.getElementById('theme-toggle-mobile');
+        const themeIconMobile = document.getElementById('theme-icon-mobile');
+
+        // Function to set icon based on theme
+        const setIcon = (isDark) => {
+            if (isDark) {
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+                themeIconMobile.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+                themeIconMobile.classList.replace('fa-sun', 'fa-moon');
+            }
+        };
+
+        // Initialize icon on load
+        setIcon(document.documentElement.classList.contains('dark'));
+
+        // Toggle Event Listener
+        const toggleTheme = () => {
+            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            setIcon(isDark);
+            
+            if (isDark) {
+                localStorage.setItem('color-theme', 'dark');
+            } else {
+                localStorage.setItem('color-theme', 'light');
+            }
+        };
+
+        themeToggleBtn.addEventListener('click', toggleTheme);
+        themeToggleBtnMobile.addEventListener('click', toggleTheme);
+
         // Navbar Scroll Effect
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 20) {
                 navbar.classList.add('shadow-sm');
                 navbar.classList.replace('bg-white/80', 'bg-white/95');
+                navbar.classList.replace('dark:bg-slate-900/80', 'dark:bg-slate-900/95');
             } else {
                 navbar.classList.remove('shadow-sm');
                 navbar.classList.replace('bg-white/95', 'bg-white/80');
+                navbar.classList.replace('dark:bg-slate-900/95', 'dark:bg-slate-900/80');
             }
         });
 
@@ -646,9 +777,12 @@
         // Close mobile menu on link click
         const mobileLinks = menu.querySelectorAll('a, button');
         mobileLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                menu.classList.add('hidden');
-            });
+            // Don't close menu if clicking the theme toggle itself
+            if(link.id !== 'theme-toggle-mobile' && !link.closest('#theme-toggle-mobile')) {
+                 link.addEventListener('click', () => {
+                    menu.classList.add('hidden');
+                });
+            }
         });
 
         // Scroll Reveal Animation via Intersection Observer
@@ -673,6 +807,107 @@
         revealElements.forEach(el => {
             revealObserver.observe(el);
         });
+
+        /* ============================================================
+           GEMINI AI INTEGRATION
+           ============================================================ */
+        const apiKey = ""; // API key is injected by the environment
+
+        // Very basic markdown parser to format Gemini's output
+        function formatMarkdown(text) {
+            let html = text
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')             // Italic
+                .replace(/### (.*?)\n/g, '<h3 class="text-lg font-bold mt-4 mb-2">$1</h3>') // H3
+                .replace(/## (.*?)\n/g, '<h2 class="text-xl font-bold mt-4 mb-2">$1</h2>') // H2
+                .replace(/\n\n/g, '</p><p>')                      // Paragraphs
+                .replace(/\n/g, '<br>');                          // Line breaks
+            
+            // Clean up lists loosely
+            html = html.replace(/<br>\* /g, '<br>• ');
+            html = html.replace(/<br>- /g, '<br>• ');
+            
+            return `<p>${html}</p>`;
+        }
+
+        // Fetch wrapper with exponential backoff
+        async function fetchWithRetry(url, options, retries = 5) {
+            const delays = [1000, 2000, 4000, 8000, 16000];
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    return await response.json();
+                } catch (error) {
+                    if (i === retries - 1) throw error;
+                    await new Promise(res => setTimeout(res, delays[i]));
+                }
+            }
+        }
+
+        // Background context about Shivam to feed the LLM
+        const shivamContext = `
+            Profile: Shivam Sharma, HR & Operations Professional.
+            Values: Efficiency First, Data-Driven, People-Centric.
+            Current Role: Associate – HR & Operations at Neotas Development Pvt. Ltd. (Nov 2023 - Present).
+            Experience highlights: Employee Lifecycle Management (Keka HRMS, onboarding, offboarding), Employee Engagement & Employer Branding (townhalls, R&R), Policy & Compliance Management (SOPs, ISO compliance), HR Analytics & Reporting (attrition tracking, TAT, ESS), Employee Relations & Grievance Handling, Talent Acquisition.
+            Education: B.A. from University of Delhi (2020-2024).
+            Key Skills: Keka HRMS, MS Office 365, Advanced Excel.
+        `;
+
+        async function handleAI(actionType) {
+            const inputEl = document.getElementById('ai-input');
+            const loadingEl = document.getElementById('ai-loading');
+            const outputContainerEl = document.getElementById('ai-output-container');
+            const outputEl = document.getElementById('ai-output');
+            
+            const userInput = inputEl.value.trim();
+            if (!userInput) {
+                alert("Please enter some text or paste a Job Description first!");
+                return;
+            }
+
+            // UI State change
+            outputContainerEl.classList.add('hidden');
+            loadingEl.classList.remove('hidden');
+
+            let systemPrompt = "";
+            let fullPrompt = "";
+
+            if (actionType === 'policy') {
+                systemPrompt = "You are an expert HR Consultant. Draft a professional, clear, and comprehensive HR policy outline based on the user's request. Keep it well-structured and practical for modern businesses.";
+                fullPrompt = `Draft an HR policy regarding: ${userInput}`;
+            } else if (actionType === 'pitch') {
+                systemPrompt = "You are acting as Shivam Sharma's AI Career Agent. Read the provided Job Description, and then write a personalized 3-paragraph pitch/cover letter explaining why Shivam's specific HR and Operations experience makes him the perfect fit. Highlight matching skills. Keep it confident, professional, and convincing.";
+                fullPrompt = `Here is Shivam's background:\n${shivamContext}\n\nHere is the Job Description:\n${userInput}`;
+            }
+
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const payload = {
+                contents: [{ parts: [{ text: fullPrompt }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] }
+            };
+
+            try {
+                const data = await fetchWithRetry(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                const responseText = data.candidates?.[0]?.content?.parts?.[0]?.text || "No response generated. Please try again.";
+                
+                outputEl.innerHTML = formatMarkdown(responseText);
+                
+                loadingEl.classList.add('hidden');
+                outputContainerEl.classList.remove('hidden');
+            } catch (error) {
+                console.error("AI Error:", error);
+                loadingEl.classList.add('hidden');
+                outputContainerEl.classList.remove('hidden');
+                outputEl.innerHTML = `<p class="text-red-500">Sorry, there was an error connecting to the AI service. Please try again later.</p>`;
+            }
+        }
     </script>
 </body>
 </html>
