@@ -811,7 +811,7 @@
         /* ============================================================
            GEMINI AI INTEGRATION
            ============================================================ */
-        const apiKey = ""; // API key is injected by the environment
+        const apiKey = "AQ.Ab8RN6LLHHT2qbBccaAl-OSX1lZSJ1oR0YErWb-KvY5WrnxUdQ"; // API key is injected by the environment
 
         // Very basic markdown parser to format Gemini's output
         function formatMarkdown(text) {
@@ -836,7 +836,16 @@
             for (let i = 0; i < retries; i++) {
                 try {
                     const response = await fetch(url, options);
-                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    if (!response.ok) {
+                        let errMsg = `HTTP error! status: ${response.status}`;
+                        try {
+                            const errData = await response.json();
+                            if (errData.error && errData.error.message) {
+                                errMsg = `Google AI Error (${response.status}): ${errData.error.message}`;
+                            }
+                        } catch (e) { /* ignore parse error */ }
+                        throw new Error(errMsg);
+                    }
                     return await response.json();
                 } catch (error) {
                     if (i === retries - 1) throw error;
@@ -905,7 +914,7 @@
                 console.error("AI Error:", error);
                 loadingEl.classList.add('hidden');
                 outputContainerEl.classList.remove('hidden');
-                outputEl.innerHTML = `<p class="text-red-500">Sorry, there was an error connecting to the AI service. Please try again later.</p>`;
+                outputEl.innerHTML = `<p class="text-red-500 font-bold">Error connecting to AI:</p><p class="text-red-400 mt-2">${error.message}</p><p class="text-slate-500 mt-4 text-sm"><em>Tip: If you just pushed changes to GitHub, wait 2 minutes and press <strong>Ctrl+Shift+R</strong> (or Cmd+Shift+R on Mac) to hard refresh the cache.</em></p>`;
             }
         }
     </script>
